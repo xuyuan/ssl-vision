@@ -47,6 +47,7 @@ protected:
   FrameCounter * counter;
   CaptureInterface * capture;
   CaptureInterface * captureDC1394;
+  CaptureInterface * captureOpenCV;
   CaptureInterface * captureFiles;
   CaptureInterface * captureGenerator;
   AffinityManager * affinity;

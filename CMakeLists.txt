@@ -12,6 +12,7 @@ set (QT_USE_QTNETWORK true)
 set (QT_USE_QTOPENGL true)
 
 find_package ( Qt4 REQUIRED )
+find_package( OpenCV 2 REQUIRED )
 
 include_directories(${PROJECT_BINARY_DIR})
 
@@ -139,7 +140,7 @@ add_definitions(${cc_flags})
 add_library(sslvision ${SHARED_MOC_SRCS} ${SHARED_RC_SRCS} ${CC_PROTO} ${SHARED_SRCS})
 add_dependencies(sslvision GenerateProto)
 
-set (libs ${QT_LIBRARIES} dc1394 jpeg png protobuf pthread GL GLU sslvision)
+set (libs ${QT_LIBRARIES} dc1394 jpeg png protobuf pthread GL GLU sslvision ${OpenCV_LIBS})
 
 ## build the main app
 set (target vision)

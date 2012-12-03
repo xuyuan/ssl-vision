@@ -20,6 +20,7 @@
 //========================================================================
 
 #include "capture_thread.h"
+#include "captureopencv.h"
 
 CaptureThread::CaptureThread(int cam_id)
 {
@@ -38,6 +39,7 @@ CaptureThread::CaptureThread(int cam_id)
   captureModule->addItem("DC 1394");
   captureModule->addItem("Read from files");
   captureModule->addItem("Generator");
+  captureModule->addItem("OpenCV");
   settings->addChild( (VarType*) (dc1394 = new VarList("DC1394")));
   settings->addChild( (VarType*) (fromfile = new VarList("Read from files")));
   settings->addChild( (VarType*) (generator = new VarList("Generator")));
@@ -53,6 +55,7 @@ CaptureThread::CaptureThread(int cam_id)
   counter=new FrameCounter();
   capture=0;
   captureDC1394 = new CaptureDC1394v2(dc1394,camId);
+  captureOpenCV = new CaptureOpenCV();
   captureFiles = new CaptureFromFile(fromfile);
   captureGenerator = new CaptureGenerator(generator);
   selectCaptureMethod();
@@ -102,6 +105,9 @@ void CaptureThread::selectCaptureMethod() {
     new_capture = captureFiles;
   } else if(captureModule->getString() == "Generator") {
     new_capture = captureGenerator;
+  }
+    else if(captureModule->getString() == "OpenCV") {
+        new_capture = captureOpenCV;
   } else {
     new_capture = captureDC1394;
   }
