@@ -57,6 +57,8 @@ CaptureOpenCV::CaptureOpenCV(VarList * settings, int defaultCameraID)
 {
     settings->addChild(captureProperty = new VarList("Capture Property"));
     captureProperty->addChild(cameraID = new VarInt("camera ID",defaultCameraID));
+    captureProperty->addChild(width = new VarInt("width",640));
+    captureProperty->addChild(height  = new VarInt("height",480));
 }
 
 RawImage CaptureOpenCV::getFrame()
@@ -94,14 +96,15 @@ bool CaptureOpenCV::startCapture()
 
     if (capture)
     {
-        cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH, 780);
-        cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT, 580);
+        cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH, width->getInt());
+        cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT, height->getInt());
 
-        int width = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH);
-        int height = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT);
-        image.ensure_allocation(COLOR_YUV422_UYVY, width, height);
-        ycrcbImage = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 3);
-        std::cout <<__PRETTY_FUNCTION__<<" ok "<<width<<"x"<<height<<"\n";
+        int w = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH);
+        int h = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT);
+        image.ensure_allocation(COLOR_YUV422_UYVY, w, h);
+        ycrcbImage = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3);
+        width->setInt(w);
+        height->setInt(h);
     }
     else
     {

@@ -50,6 +50,8 @@ public:
 private:
     VarList* captureProperty;
     VarInt* cameraID;
+    VarInt* width;
+    VarInt* height;
 
     CvCapture* capture;
     RawImage image;
