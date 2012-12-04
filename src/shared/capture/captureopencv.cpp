@@ -42,13 +42,6 @@ void convertYCrCb2yuv422(IplImage *ycrcbImage, uchar * yuv422) {
 }
 
 #ifndef VDATA_NO_QT
-
-
-void CaptureOpenCV::mvc_connect(VarList * group)
-{
-
-}
-
 CaptureOpenCV::CaptureOpenCV(VarList * settings, int defaultCameraID, QObject * parent)
 #else
 CaptureOpenCV::CaptureOpenCV(VarList * settings, int defaultCameraID)

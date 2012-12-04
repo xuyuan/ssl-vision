@@ -35,7 +35,6 @@ class CaptureOpenCV : public CaptureInterface
 public:
 #ifndef VDATA_NO_QT
     CaptureOpenCV(VarList * settings=0,int defaultCameraID=CV_CAP_ANY, QObject * parent=NULL);
-    void mvc_connect(VarList * group);
 #else
     CaptureDC1394v2(VarList * settings=0,int defaultCameraID=CV_CAP_ANY);
 #endif // VDATA_NO_QT
