@@ -55,7 +55,7 @@ CaptureThread::CaptureThread(int cam_id)
   counter=new FrameCounter();
   capture=0;
   captureDC1394 = new CaptureDC1394v2(dc1394,camId);
-  captureOpenCV = new CaptureOpenCV();
+  captureOpenCV = new CaptureOpenCV(camId);
   captureFiles = new CaptureFromFile(fromfile);
   captureGenerator = new CaptureGenerator(generator);
   selectCaptureMethod();

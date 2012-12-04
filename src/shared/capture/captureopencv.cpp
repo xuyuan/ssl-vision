@@ -19,7 +19,7 @@ void convertYCrCb2yuv422(IplImage *ycrcbImage, uchar * yuv422) {
     }
 }
 
-CaptureOpenCV::CaptureOpenCV()
+CaptureOpenCV::CaptureOpenCV(int camId):camId(camId)
 {
     capture = NULL;
 }
@@ -54,16 +54,19 @@ void CaptureOpenCV::releaseFrame()
 bool CaptureOpenCV::startCapture()
 {
     if ( !capture ) {
-        capture = cvCaptureFromCAM( 1 );
+        capture = cvCaptureFromCAM(camId);
     }
 
     if (capture)
     {
-        std::cout <<__PRETTY_FUNCTION__<<" ok\n";
+        cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH, 780);
+        cvSetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT, 580);
+
         int width = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_WIDTH);
         int height = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_HEIGHT);
         image.ensure_allocation(COLOR_YUV422_UYVY, width, height);
         ycrcbImage = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 3);
+        std::cout <<__PRETTY_FUNCTION__<<" ok "<<width<<"x"<<height<<"\n";
     }
     else
     {

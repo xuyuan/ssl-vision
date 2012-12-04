@@ -9,7 +9,7 @@ class CaptureOpenCV : public CaptureInterface
 {
 
 public:
-    CaptureOpenCV();
+    CaptureOpenCV(int camId=CV_CAP_ANY);
 
     virtual RawImage getFrame();
     virtual bool     isCapturing();
@@ -19,6 +19,7 @@ public:
     virtual string   getCaptureMethodName() const;
     virtual bool copyAndConvertFrame(const RawImage & src, RawImage & target);
 private:
+    int camId;
     CvCapture* capture;
     RawImage image;
     IplImage* ycrcbImage;
