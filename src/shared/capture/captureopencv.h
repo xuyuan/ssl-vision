@@ -17,6 +17,7 @@ public:
     virtual bool     startCapture();
     virtual bool     stopCapture();
     virtual string   getCaptureMethodName() const;
+    virtual bool copyAndConvertFrame(const RawImage & src, RawImage & target);
 private:
     CvCapture* capture;
     RawImage image;

@@ -54,7 +54,7 @@ void CaptureOpenCV::releaseFrame()
 bool CaptureOpenCV::startCapture()
 {
     if ( !capture ) {
-        capture = cvCaptureFromCAM( CV_CAP_ANY );
+        capture = cvCaptureFromCAM( 1 );
     }
 
     if (capture)
@@ -82,6 +82,12 @@ bool CaptureOpenCV::stopCapture()
 
 string   CaptureOpenCV::getCaptureMethodName() const
 {
-    std::cout<<__PRETTY_FUNCTION__<<"\n";
-    return "what is this?";
+    return "OpenCV";
+}
+
+bool CaptureOpenCV::copyAndConvertFrame(const RawImage & src, RawImage & target) {
+  target.ensure_allocation(src.getColorFormat(),src.getWidth(),src.getHeight());
+  target.setTime(src.getTime());
+  memcpy(target.getData(),src.getData(),src.getNumBytes());
+  return true;
 }
