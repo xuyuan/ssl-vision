@@ -59,6 +59,7 @@ protected:
   VarList * generator;
   VarList * fromfile;
   VarList * control;
+  VarList * opencv;
   VarTrigger * c_start;
   VarTrigger * c_stop;
   VarTrigger * c_reset;

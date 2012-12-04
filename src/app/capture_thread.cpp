@@ -43,6 +43,7 @@ CaptureThread::CaptureThread(int cam_id)
   settings->addChild( (VarType*) (dc1394 = new VarList("DC1394")));
   settings->addChild( (VarType*) (fromfile = new VarList("Read from files")));
   settings->addChild( (VarType*) (generator = new VarList("Generator")));
+  settings->addChild( (VarType*) (opencv = new VarList("OpenCV")));
   settings->addFlags( VARTYPE_FLAG_AUTO_EXPAND_TREE );
   c_stop->addFlags( VARTYPE_FLAG_READONLY );
   c_refresh->addFlags( VARTYPE_FLAG_READONLY );
@@ -55,7 +56,7 @@ CaptureThread::CaptureThread(int cam_id)
   counter=new FrameCounter();
   capture=0;
   captureDC1394 = new CaptureDC1394v2(dc1394,camId);
-  captureOpenCV = new CaptureOpenCV(camId);
+  captureOpenCV = new CaptureOpenCV(opencv, camId);
   captureFiles = new CaptureFromFile(fromfile);
   captureGenerator = new CaptureGenerator(generator);
   selectCaptureMethod();

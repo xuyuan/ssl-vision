@@ -25,11 +25,20 @@
 #include "captureinterface.h"
 #include <highgui.h>
 
+#ifndef VDATA_NO_QT
+  #include <QMutex>
+class CaptureOpenCV : public QObject, public CaptureInterface
+#else
 class CaptureOpenCV : public CaptureInterface
+#endif // VDATA_NO_QT
 {
-
 public:
-    CaptureOpenCV(int camId=CV_CAP_ANY);
+#ifndef VDATA_NO_QT
+    CaptureOpenCV(VarList * _settings=0,int camId=CV_CAP_ANY, QObject * parent=NULL);
+    void mvc_connect(VarList * group);
+#else
+    CaptureDC1394v2(VarList * _settings=0,int camId=CV_CAP_ANY);
+#endif // VDATA_NO_QT
 
     virtual RawImage getFrame();
     virtual bool     isCapturing();
