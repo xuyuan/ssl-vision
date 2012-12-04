@@ -42,21 +42,22 @@ void convertYCrCb2yuv422(IplImage *ycrcbImage, uchar * yuv422) {
 }
 
 #ifndef VDATA_NO_QT
-CaptureOpenCV::CaptureOpenCV(VarList * _settings,int camId, QObject * parent):capture(NULL),camId(camId)
-{
 
-}
 
 void CaptureOpenCV::mvc_connect(VarList * group)
 {
 
 }
 
+CaptureOpenCV::CaptureOpenCV(VarList * settings, int defaultCameraID, QObject * parent)
 #else
-CaptureOpenCV::CaptureOpenCV(VarList * _settings, int camId):capture(NULL),camId(camId)
-{
-}
+CaptureOpenCV::CaptureOpenCV(VarList * settings, int defaultCameraID)
 #endif // VDATA_NO_QT
+  :CaptureInterface(settings), capture(NULL)
+{
+    settings->addChild(captureProperty = new VarList("Capture Property"));
+    captureProperty->addChild(cameraID = new VarInt("camera ID",defaultCameraID));
+}
 
 RawImage CaptureOpenCV::getFrame()
 {
@@ -88,7 +89,7 @@ void CaptureOpenCV::releaseFrame()
 bool CaptureOpenCV::startCapture()
 {
     if ( !capture ) {
-        capture = cvCaptureFromCAM(camId);
+        capture = cvCaptureFromCAM(cameraID->getInt());
     }
 
     if (capture)

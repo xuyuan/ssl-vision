@@ -34,10 +34,10 @@ class CaptureOpenCV : public CaptureInterface
 {
 public:
 #ifndef VDATA_NO_QT
-    CaptureOpenCV(VarList * _settings=0,int camId=CV_CAP_ANY, QObject * parent=NULL);
+    CaptureOpenCV(VarList * settings=0,int defaultCameraID=CV_CAP_ANY, QObject * parent=NULL);
     void mvc_connect(VarList * group);
 #else
-    CaptureDC1394v2(VarList * _settings=0,int camId=CV_CAP_ANY);
+    CaptureDC1394v2(VarList * settings=0,int defaultCameraID=CV_CAP_ANY);
 #endif // VDATA_NO_QT
 
     virtual RawImage getFrame();
@@ -48,7 +48,9 @@ public:
     virtual string   getCaptureMethodName() const;
     virtual bool copyAndConvertFrame(const RawImage & src, RawImage & target);
 private:
-    int camId;
+    VarList* captureProperty;
+    VarInt* cameraID;
+
     CvCapture* capture;
     RawImage image;
     IplImage* ycrcbImage;
