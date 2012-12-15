@@ -25,7 +25,7 @@
 #include "capturefromfile.h"
 #include "image_io.h"
 #include "conversions.h"
-
+#include <unistd.h>
 
 #ifndef VDATA_NO_QT
 CaptureFromFile::CaptureFromFile(VarList * _settings, QObject * parent) : QObject(parent), CaptureInterface(_settings)
@@ -45,6 +45,7 @@ CaptureFromFile::CaptureFromFile(VarList * _settings) : CaptureInterface(_settin
   v_colorout->addItem(Colors::colorFormatToString(COLOR_YUV422_UYVY));
     
   //=======================CAPTURE SETTINGS==========================
+  capture_settings->addChild(v_sleep = new VarInt("sleep (ms)"));
   capture_settings->addChild(v_cap_dir = new VarString("directory", ""));
     
   // Valid file endings
@@ -212,6 +213,8 @@ RawImage CaptureFromFile::getFrame()
 #ifndef VDATA_NO_QT
    mutex.lock();
 #endif
+
+   usleep(v_sleep->getInt() * 1e3);
 
   RawImage result;
   result.setColorFormat(COLOR_RGB8); 

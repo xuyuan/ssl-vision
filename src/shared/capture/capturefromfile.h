@@ -62,6 +62,7 @@ protected:
 
   //capture variables:
   VarString * v_cap_dir;
+  VarInt * v_sleep;
   VarList * capture_settings;
   VarList * conversion_settings;
 
