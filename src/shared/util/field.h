@@ -47,7 +47,7 @@ protected:
   vector<VarType *> field_params;
   vector<VarType *> derived_params;
   VarList * settings;
-  VarTrigger * restore;
+  VarStringEnum * restore;
 public:
   VarList * getSettings() const {
     return settings;
@@ -136,6 +136,25 @@ public:
     penalty_line_from_spot_dist->setInt(FieldConstantsRoboCup2009::penalty_line_from_spot_dist);
     updateDerivedParameters();
   }
+
+  void loadRoboCupSPL2012() {
+    line_width->setInt(FieldConstantsRoboCupSPL2012::line_width);
+    field_length->setInt(FieldConstantsRoboCupSPL2012::field_length);
+    field_width->setInt(FieldConstantsRoboCupSPL2012::field_width);
+    boundary_width->setInt(FieldConstantsRoboCupSPL2012::boundary_width);
+    referee_width->setInt(FieldConstantsRoboCupSPL2012::referee_width);
+    goal_width->setInt(FieldConstantsRoboCupSPL2012::goal_width);
+    goal_depth->setInt(FieldConstantsRoboCupSPL2012::goal_depth);
+    goal_wall_width->setInt(FieldConstantsRoboCupSPL2012::goal_wall_width);
+    center_circle_radius->setInt(FieldConstantsRoboCupSPL2012::center_circle_radius);
+    defense_radius->setInt(FieldConstantsRoboCupSPL2012::defense_radius);
+    defense_stretch->setInt(FieldConstantsRoboCupSPL2012::defense_stretch);
+    free_kick_from_defense_dist->setInt(FieldConstantsRoboCupSPL2012::free_kick_from_defense_dist);
+    penalty_spot_from_field_line_dist->setInt(FieldConstantsRoboCupSPL2012::penalty_spot_from_field_line_dist);
+    penalty_line_from_spot_dist->setInt(FieldConstantsRoboCupSPL2012::penalty_line_from_spot_dist);
+    updateDerivedParameters();
+  }
+
   void updateDerivedParameters() {
     field_total_playable_length->setInt(field_length->getInt() + (2 * boundary_width->getInt()));
     field_total_playable_width ->setInt(field_width->getInt() + (2 * boundary_width->getInt()));
@@ -155,7 +174,10 @@ public:
   RoboCupField()
   {
     settings = new VarList("Field Configuration");
-    settings->addChild(restore = new VarTrigger("Reset SSL 2009","Reset SSL 2009"));
+    settings->addChild( (VarType*) (restore= new VarStringEnum("Reset Field Configuration","SPL 2012")));
+    restore->addFlags(VARTYPE_FLAG_NOLOAD_ENUM_CHILDREN);
+    restore->addItem("SPL 2012");
+    restore->addItem("SSL 2009");
     
     connect(restore,SIGNAL(wasEdited(VarType*)),this,SLOT(restoreRoboCup()));
     //regulation-based symmetric field:
@@ -270,7 +292,12 @@ protected slots:
     calibrationChanged();
   }
   void restoreRoboCup() {
-    loadDefaultsRoboCup2009();
+      if (restore->getString() == "SPL 2012")
+        loadRoboCupSPL2012();
+      else if (restore->getString() == "SSL 2009")
+        loadDefaultsRoboCup2009();
+      else
+          assert(false);
   }
 };
     

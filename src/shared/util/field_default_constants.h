@@ -37,4 +37,21 @@ namespace FieldConstantsRoboCup2009 {
   static const int penalty_spot_from_field_line_dist=450;
   static const int penalty_line_from_spot_dist=400;
 }
+
+namespace FieldConstantsRoboCupSPL2012 {
+  static const int line_width = 50;
+  static const int field_length=6000;
+  static const int field_width=4000;
+  static const int boundary_width=700;
+  static const int referee_width=700; // ???
+  static const int goal_width=1400;
+  static const int goal_depth=400;
+  static const int goal_wall_width=100;
+  static const int center_circle_radius=600;
+  static const int defense_radius=600; // ???
+  static const int defense_stretch=1000; // ???
+  static const int free_kick_from_defense_dist=200; // ??
+  static const int penalty_spot_from_field_line_dist=1800;
+  static const int penalty_line_from_spot_dist=1200; // ??
+}
 #endif // FIELD_H
