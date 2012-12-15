@@ -92,7 +92,7 @@ class Sobel
   {
     int resX = -1;
     int maxEdge(0);
-    for(int x=xStart; x<=xEnd; ++x)
+    for(int x=xStart; x<xEnd; ++x)
     {
       int currentEdge = f(img,x,y,threshold);
       if(currentEdge > maxEdge)
@@ -133,7 +133,7 @@ class Sobel
     int maxBrightEdge(0);
     int maxDarkY(0);
     int maxBrightY(0);
-    for(int y=yStart; y<=yEnd; ++y)
+    for(int y=yStart; y<yEnd; ++y)
     {
       int currentDarkEdge = Sobel::verticalDarker(img, x, y, threshold);
       int currentBrightEdge = Sobel::verticalBrighter(img, x, y, threshold);
