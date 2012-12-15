@@ -67,8 +67,6 @@ protected:
   VarList * conversion_settings;
 
   unsigned char* frame;
-  std::list<std::string> imgs_to_load;
-  std::list<std::string>::iterator imgs_it;
   std::vector<rgba*> images;
   std::vector<int> heights;
   std::vector<int> widths;
@@ -76,6 +74,7 @@ protected:
   
   bool isImageFileName(const std::string& fileName);
   std::vector<std::string> validImageFileEndings;
+  std::string currentImageDir;
   
 public:
 #ifndef VDATA_NO_QT

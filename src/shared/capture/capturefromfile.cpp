@@ -59,7 +59,7 @@ CaptureFromFile::~CaptureFromFile()
 {
   for(unsigned int i=0; i<images.size(); ++i)
   {
-    delete images[i];
+    delete [] images[i];
   }
 }
 
@@ -85,6 +85,18 @@ bool CaptureFromFile::startCapture()
 #ifndef VDATA_NO_QT
   mutex.lock();
 #endif
+  if (currentImageDir!=v_cap_dir->getString())
+  {
+      for(unsigned int i=0; i<images.size(); ++i)
+      {
+          delete [] images[i];
+      }
+      images.clear();
+      heights.clear();
+      widths.clear();
+      currentImageIndex = 0;
+  }
+
   if(images.size() == 0)
   {
     // Acquire a list of file names
@@ -98,7 +110,9 @@ bool CaptureFromFile::startCapture()
 #endif      
       is_capturing=false;
       return false;
-    }  
+    }
+
+    std::list<std::string> imgs_to_load;
     while ((dirp = readdir(dp))) 
     {
       if (strcmp(dirp->d_name,".") != 0 && strcmp(dirp->d_name,"..") != 0) 
@@ -121,8 +135,7 @@ bool CaptureFromFile::startCapture()
   
     // Read images to buffer in memory:
     imgs_to_load.sort();
-    imgs_it = imgs_to_load.begin();
-    std::list<std::string>::iterator currentImage = imgs_it;
+    std::list<std::string>::iterator currentImage = imgs_to_load.begin();
     while(currentImage != imgs_to_load.end())
     {
       int width(-1);
@@ -137,7 +150,7 @@ bool CaptureFromFile::startCapture()
     currentImageIndex = 0;
   }
   is_capturing=true;  
-  
+  currentImageDir=v_cap_dir->getString();
 #ifndef VDATA_NO_QT
   mutex.unlock();
 #endif
