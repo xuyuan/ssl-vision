@@ -21,7 +21,6 @@
 
 #include "captureopencv.h"
 #include <iostream>
-#include <cv.h>
 
 void convertYCrCb2yuv422(IplImage *ycrcbImage, uchar * yuv422) {
     CvSize size = cvGetSize(ycrcbImage);

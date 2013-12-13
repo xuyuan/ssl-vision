@@ -23,7 +23,7 @@
 #define CAPTUREOPENCV_H
 
 #include "captureinterface.h"
-#include <highgui.h>
+#include <opencv2/opencv.hpp>
 
 #ifndef VDATA_NO_QT
   #include <QMutex>
